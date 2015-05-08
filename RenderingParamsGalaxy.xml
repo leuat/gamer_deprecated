@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RenderingParams xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <idx>0</idx>
+  <idxCount>0</idxCount>
+  <divide>0</divide>
+  <camera>
+    <camera>
+      <x>0</x>
+      <y>0.5972798</y>
+      <z>0.8020424</z>
+    </camera>
+    <target>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </target>
+    <up>
+      <x>0</x>
+      <y>-0.8020364</y>
+      <z>0.597275257</z>
+    </up>
+    <perspective>90</perspective>
+  </camera>
+  <direction>
+    <x>0</x>
+    <y>0</y>
+    <z>0</z>
+  </direction>
+  <detailLevel>0</detailLevel>
+  <noiseDetail>1</noiseDetail>
+  <seed>0</seed>
+  <size>128</size>
+  <exposure>13.1434155</exposure>
+  <gamma>1</gamma>
+  <saturation>1</saturation>
+  <no_procs>4</no_procs>
+  <continuousPostprocessing>true</continuousPostprocessing>
+  <noStars>0</noStars>
+  <starSize>0.15</starSize>
+  <starSizeSpread>0.4</starSizeSpread>
+  <starStrength>0.4</starStrength>
+  <currentScene>Skybox1
+.xml</currentScene>
+  <rayStep>0.005</rayStep>
+  <rayStepPreview>0.02</rayStepPreview>
+  <rayStepNormal>0.005</rayStepNormal>
+  <color>
+    <x>1</x>
+    <y>1</y>
+    <z>1</z>
+  </color>
+  <wavelength>0</wavelength>
+  <lensing>0</lensing>
+  <currentGalaxy>haakon
+.xml</currentGalaxy>
+  <bufferSize>0</bufferSize>
+  <randomize_spectra>0</randomize_spectra>
+</RenderingParams>

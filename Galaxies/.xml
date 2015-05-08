@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Galaxy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <param>
+    <axis>
+      <x>1</x>
+      <y>1</y>
+      <z>1</z>
+    </axis>
+    <bulgeDust>0.025</bulgeDust>
+    <bulgeAxis>
+      <x>1</x>
+      <y>1</y>
+      <z>1</z>
+    </bulgeAxis>
+    <windingB>0.5</windingB>
+    <windingN>4</windingN>
+    <noArms>2</noArms>
+    <arm1>0</arm1>
+    <arm2>3.14159274</arm2>
+    <arm3>1.57079637</arm3>
+    <arm4>4.712389</arm4>
+    <innerTwirl>0</innerTwirl>
+    <warpAmplitude>0</warpAmplitude>
+    <warpScale>0</warpScale>
+    <randShiftX>216</randShiftX>
+    <randShiftY>953</randShiftY>
+    <diskStarModifier>0</diskStarModifier>
+  </param>
+  <displayName />
+  <componentParams />
+</Galaxy>

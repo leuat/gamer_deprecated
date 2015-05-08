@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RenderingParams xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <idx>0</idx>
+  <idxCount>0</idxCount>
+  <divide>0</divide>
+  <camera>
+    <camera>
+      <x>1.64906216</x>
+      <y>0.7700561</y>
+      <z>-1.29907632</z>
+    </camera>
+    <target>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </target>
+    <up>
+      <x>-0.0970946</x>
+      <y>0.9053515</y>
+      <z>0.4134141</z>
+    </up>
+    <perspective>25</perspective>
+  </camera>
+  <direction>
+    <x>0</x>
+    <y>0</y>
+    <z>0</z>
+  </direction>
+  <detailLevel>0</detailLevel>
+  <seed>0</seed>
+  <size>128</size>
+  <no_procs>4</no_procs>
+  <terminate>0</terminate>
+  <rayStep>0.005</rayStep>
+  <rayStepPreview>0.02</rayStepPreview>
+  <rayStepNormal>0.005</rayStepNormal>
+  <wavelength>0</wavelength>
+  <lensing>0</lensing>
+  <currentGalaxy>galaxy1.xml</currentGalaxy>
+  <bufferSize>0</bufferSize>
+  <randomize_spectra>0</randomize_spectra>
+</RenderingParams>
