@@ -67,8 +67,8 @@ namespace LemonSpawn.Gamer {
 			SetupDictionary();
 			Spectra.PopulateSpectra();	
 		}
-				
-	
+			
+		
 		public static void SetupDictionary() {
 			classDictionary.Clear();
 			classDictionary.Add("Bulge","LemonSpawn.Gamer.GalaxyComponentBulge,Assembly-CSharp,Version=0.0.0.0,Culture=neutral,PublicKeyToken=null");

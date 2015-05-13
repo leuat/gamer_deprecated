@@ -47,6 +47,11 @@ namespace LemonSpawn.Gamer {
 			PopulateReferenceImage("ComboBoxReference");
 		}
 		
+		public override void Render() {
+			
+		}	
+		
+		
 		public void UpdatePostProcessing() {
 			gamer.rast.RP.exposure = getSliderValue("SliderExposure");
 			gamer.rast.RP.gamma = getSliderValue("SliderGamma");

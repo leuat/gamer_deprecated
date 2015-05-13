@@ -140,7 +140,7 @@ namespace LemonSpawn.Gamer {
 			}
 		}
 		
-			public void Load(string fname) {
+			public Buffer2D Load(string fname) {
 				
 				Buffer2D buffer;
 				using (BinaryReader reader = new BinaryReader(File.Open(fname, FileMode.Open))) {
@@ -158,11 +158,8 @@ namespace LemonSpawn.Gamer {
 			
 				}	
 			buffer.Normalize();
-			colorBuffer = new ColorBuffer2D(buffer._width, buffer._height);
-			for (int i=0;i<3;i++)
-				colorBuffer.buffers[i].Copy(buffer);
-			colorBuffer.CreateColorBuffer(1,1, Vector3.one, 1, null);
-				
+			colorBuffer = new ColorBuffer2D(buffer,0 ,Vector3.one);
+			return buffer;
 				
 		}
 /*		public void SaveInt(string fname) {

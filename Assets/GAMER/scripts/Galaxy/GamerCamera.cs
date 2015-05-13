@@ -10,6 +10,23 @@ namespace LemonSpawn.Gamer {
 		public float perspective;
 		Matrix4x4 viewMatrix, viewMatrixInv;
 		
+		public void TranslateXY(Vector3 p) {
+			
+			Vector3 left = Vector3.Cross (camera-target, up).normalized;
+			
+			Vector3 d = left*p.x - up.normalized*p.y;
+		
+			camera+=d;
+			target+=d;
+		}
+
+		public void Roll(float deg) {
+			Quaternion q = Quaternion.AngleAxis(deg, camera-target);
+			up = q*up;
+		}	
+		public void Zoom(float scale) {
+			camera = camera + (camera-target).normalized*scale;		
+		}
 
 		public void setupViewmatrix() {
 			Vector3 zaxis = (target-camera).normalized;

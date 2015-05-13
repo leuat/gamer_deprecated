@@ -14,7 +14,14 @@ namespace LemonSpawn.Gamer {
 		public Vector3 colorFilter = new Vector3(0,1,2);
 		
 		
+		
+		
 		public ColorBuffer2D(int w, int h) {
+			Create(w,h);
+			
+		}
+		
+		public void Create(int w,int h) {
 			_width = w;
 			_height = h;
 			buffers = new Buffer2D[3];
@@ -28,6 +35,15 @@ namespace LemonSpawn.Gamer {
 			}
 			image = new Texture2D(w,h);
 			image.filterMode = FilterMode.Point;
+			
+		}
+		
+		
+		public ColorBuffer2D(Buffer2D buffer, float add, Vector3 color) {
+			Create(buffer._width, buffer._height);
+			for (int i=0;i<3;i++)
+				buffers[i].Copy(buffer);
+			CreateColorBuffer(1,1, color, 1, null);
 			
 		}
 		
@@ -220,6 +236,17 @@ namespace LemonSpawn.Gamer {
 			}
 		}
 		
+		
+		public void StretchFrom(Buffer2D source) {
+			for (int i=0;i<_width;i++)
+				for (int j=0;j<_height;j++) {
+					int x = (int)((i/(float)_width)*(float)source._width);
+					int y = (int)((j/(float)_height)*(float)source._height);
+					buffer[i + j*_width] = source.buffer[x + y*source._width];
+			}
+		}
+		
+		
 		public void Copy(Buffer2D o) {
 			for (int i=0;i<buffer.Length;i++)
 				buffer[i] = o.buffer[i];
@@ -321,12 +348,23 @@ namespace LemonSpawn.Gamer {
 		
 		}
 
+		public void NormalizeFluxTo(Buffer2D source) {
+			float s = source.getMean();
+			float t = getMean();
+			Scale(s/t);
+			
+		}
+
+
+		public float getSum() {
+			float mu = 0;
+				for (int i=0;i<buffer.Length;i++)
+					mu+=buffer[i];
+			return mu;	
+		}
 
 		public float getMean() {
-			float mu = 0;
-			for (int i=0;i<buffer.Length;i++)
-				mu+=buffer[i];
-			return mu/(_width*_height);
+			return getSum()/(_width*_height);
 		}
 
 		public float getSigma(float mu) {

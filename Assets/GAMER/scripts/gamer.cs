@@ -13,33 +13,44 @@ public class gamer : MonoBehaviour {
 	
 	
 	public static Material material;
-	public static Material altMaterial;
+	public static Material altMaterial, matResidual;
 	public static Rasterizer rast = new Rasterizer();
-	
+	public static Likelihood likelihood;
+	public static graph ChiSQ = new graph();
 	
 	private PanelSettings pnlSettings;
 	private PanelGalaxyRenderer pnlGalaxyRenderer;	
 	private PanelScene pnlScene;
+	private PanelLikelihood pnlLikelihood;
 	private GamerPanel currentPanel;
-	private GameObject p1, p2;
+	private GameObject p1, p2, p3;
 	public static Fits altImage;
-	private bool toggle = false;
+	private int toggle = 0;
+	private Vector3 mousePosOld;
 
 	public void AlternateImage() {
-		toggle = !toggle;
+		toggle = (toggle +1)%3;
 		p1.SetActive(false);
 		p2.SetActive(false);
-		if (toggle)
+		p3.SetActive(false);
+		if (toggle==0)
 			p1.SetActive(true);
-		else
+		else if (toggle==1)
 			p2.SetActive(true);
+			else if (toggle==2)
+				p3.SetActive(true);
 			
 		}
 
 
+	public void OnGUI() {
+		ChiSQ.max = 15;
+		ChiSQ.Render(new Rect(0,0,Screen.width/2, 100));
+	}
+
 	public static void LoadReferenceImage(string fname) {
 		altImage = new Fits();
-		altImage.Load(fname);
+		likelihood = new Likelihood(altImage.Load(fname));
 		altImage.colorBuffer.Assemble();
 		altMaterial.mainTexture = altImage.colorBuffer.image;
 			
@@ -54,16 +65,18 @@ public class gamer : MonoBehaviour {
 		// Test galaxy
 		material = (Material)Resources.Load ("matGalaxy");
 		altMaterial = (Material)Resources.Load ("matAltGalaxy");
+		matResidual = (Material)Resources.Load ("matResidual");
 		p1 = GameObject.Find ("PlaneGalaxy");
 		p2 = GameObject.Find ("PlaneAltGalaxy");
+		p3 = GameObject.Find ("AllPanels");
 		Settings.SetupGamer();
 
 		pnlGalaxyRenderer = new PanelGalaxyRenderer( GameObject.Find ("pnlGalaxyRender"));
 		pnlSettings = new PanelSettings( GameObject.Find ("pnlSettings"));
 		pnlScene = new PanelScene( GameObject.Find ("pnlScene"));
-		
+		pnlLikelihood = new PanelLikelihood( GameObject.Find ("pnlLikelihood"));
+						
 		HideAllPanels();
-		clickPnlGalaxyRenderer();
 			
 		//rast.RP = RenderingParams.Load (Settings.ParamFile);
 
@@ -71,6 +84,7 @@ public class gamer : MonoBehaviour {
 		pnlGalaxyRenderer.Initialize();
 		pnlSettings.Initialize();
 		pnlScene.Initialize();
+		clickPnlGalaxyRenderer();
 			
 		AlternateImage();
 
@@ -107,6 +121,11 @@ public class gamer : MonoBehaviour {
 		pnlSettings.SetActive(true);	
 		currentPanel = pnlSettings;
 	}
+	public void clickPnlLikelihood() {
+		HideAllPanels();
+		pnlLikelihood.SetActive(true);	
+		currentPanel = pnlLikelihood;
+	}
 	public void clickPnlScene() {
 		HideAllPanels();
 		pnlScene.SetActive(true);	
@@ -132,6 +151,7 @@ public class gamer : MonoBehaviour {
 		pnlSettings.SetActive(false);
 		pnlGalaxyRenderer.SetActive(false);
 		pnlScene.SetActive(false);
+		pnlLikelihood.SetActive(false);
 //		pnlFiles.SetActive(false);
 	}
 	void ShowAllPanels() {
@@ -157,7 +177,6 @@ public class gamer : MonoBehaviour {
 	public void ClickSceneGalaxyButton() {
 		pnlScene.ClickGalaxyButton();
 	}	
-		
 	public void RenderSkybox() {
 		rast.RenderSkybox();
 		
@@ -180,18 +199,34 @@ public class gamer : MonoBehaviour {
 		if (pnlGalaxyRenderer.currentGalaxy != null)
 			Galaxy.Save ( Settings.GalaxyDirectory +gamer.rast.RP.currentGalaxy,pnlGalaxyRenderer.currentGalaxy.GetGalaxy());
 	}
+	
+	private bool isDrag = false;	
+				
+	void Mouse() {
+		Vector3 delta = mousePosOld - Input.mousePosition;
+		mousePosOld = Input.mousePosition;
+		if (Input.GetMouseButtonDown(0)) isDrag = true;
+		if (Input.GetMouseButtonUp(0)) isDrag = false;
+		if (isDrag) {
+			rast.RP.camera.TranslateXY(delta*0.01f*rast.RP.camera.perspective/200f);
+			currentPanel.UpdateRenderingParamsGUI();
+			Render();
+		}
+	}
 		
 	// Update is called once per frame
 	void Update () {
 		Rasterizer.MaintainThreadQueue();
 		rast.UpdateRendering();
-		
+		Mouse();
 		if (currentPanel!=null)
 			currentPanel.Update();
 		
 		if (Input.GetKeyUp(KeyCode.Space))
 			AlternateImage();
-			
+		
+		if (Input.GetKey(KeyCode.LeftShift)) 
+		{
 		if (Input.GetKeyUp (KeyCode.Alpha1))
 			SetColorMode(new Vector3(0,1,2));
 		if (Input.GetKeyUp (KeyCode.Alpha2))
@@ -200,7 +235,7 @@ public class gamer : MonoBehaviour {
 			SetColorMode(new Vector3(1,1,1));
 		if (Input.GetKeyUp (KeyCode.Alpha4))
 			SetColorMode(new Vector3(2,2,2));
-			
+		}			
 		if (Input.GetKey (KeyCode.Escape)) {
 			//RenderingParams.Save (Settings.ParamFile, rast.RP);
 			pnlGalaxyRenderer.SaveParams();

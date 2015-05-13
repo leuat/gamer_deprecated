@@ -40,7 +40,7 @@ public class GamerPanel {
 			
 	}
 		void Pressed() {
-			gamer.rast.RP.rayStep = gamer.rast.RP.rayStepPreview;
+//			gamer.rast.RP.rayStep = gamer.rast.RP.rayStepPreview;
 			Render();
 			lastPressed=0;
 			
@@ -49,32 +49,46 @@ public class GamerPanel {
 	public void InputKeys() {
 			float angle = 0.45f;
 			
+			if (Input.GetKey(KeyCode.LeftControl)) {
+			
 			if (Input.GetKey(KeyCode.DownArrow)) {
-				gamer.rast.RP.camera.RotateVertical(angle);
+				if (Input.GetKey(KeyCode.LeftShift))
+					gamer.rast.RP.camera.Zoom(angle*0.1f);
+				else			
+					gamer.rast.RP.camera.RotateVertical(angle);
 				Pressed();
 				PopulateGUI();
 			}
 			if (Input.GetKey(KeyCode.UpArrow)) {
-				gamer.rast.RP.camera.RotateVertical(-angle);
+				if (Input.GetKey(KeyCode.LeftShift))
+					gamer.rast.RP.camera.Zoom(-angle*0.1f);
+				else			
+					gamer.rast.RP.camera.RotateVertical(-angle);
 				Pressed();
 				PopulateGUI();
 			}
 			if (Input.GetKey(KeyCode.LeftArrow)) {
-				gamer.rast.RP.camera.RotateHorisontal(angle);
+				if (Input.GetKey(KeyCode.LeftShift))
+					gamer.rast.RP.camera.Roll(angle);
+				else
+					gamer.rast.RP.camera.RotateHorisontal(angle);
 				Pressed();
 				PopulateGUI();
 			}
 			if (Input.GetKey(KeyCode.RightArrow)) {
-				gamer.rast.RP.camera.RotateHorisontal(-angle);
+				if (Input.GetKey(KeyCode.LeftShift))
+					gamer.rast.RP.camera.Roll(-angle);
+				else
+					gamer.rast.RP.camera.RotateHorisontal(-angle);
 				PopulateGUI();
 				Pressed();
 			}
-			
+			}
 			lastPressed+=Time.deltaTime;
-			if (lastPressed>0.40f && gamer.rast.RP.rayStep != gamer.rast.RP.rayStepNormal) {
+			if (lastPressed>0.40f) {// && gamer.rast.RP.rayStep != gamer.rast.RP.rayStepNormal) {
 				gamer.rast.RP.rayStep = gamer.rast.RP.rayStepNormal;
 				//	gamer.rast.ClearBuffers();
-				Render();
+				//Render();
 			}
 			
 		}
@@ -195,7 +209,6 @@ public class GamerPanel {
 	}
 	
 	public virtual void UpdateData() {
-		
 	}
 	
 		public void UpdateRenderingParamsGUI() {
@@ -224,7 +237,7 @@ public class GamerPanel {
 	
 	public virtual void LoadGalaxy(string n) {}
 	
-	public void Render() {
+	public virtual void Render() {
 		RenderingParams.Save (Settings.ParamFileSingle, gamer.rast.RP);
 		gamer.rast.RP.continuousPostprocessing = getToggle("TogglePostProcess");
 		gamer.rast.Render ();		

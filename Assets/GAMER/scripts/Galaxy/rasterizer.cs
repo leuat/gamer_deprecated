@@ -183,7 +183,21 @@ namespace LemonSpawn.Gamer {
 			}			
 		
 		}
-		
+
+		public void Statistics() {
+			if (gamer.likelihood != null) {
+				Buffer2D curBuf = buffer.buffers[(int)buffer.colorFilter.x];
+				gamer.likelihood.UpdateModel(curBuf);
+				float chisq = gamer.likelihood.Chisq();
+				gamer.ChiSQ.InsertCount(chisq,0);
+				//Debug.Log ("normalizing: " + curBuf.getMean() + " " + gamer.likelihood.Signal.getMean());
+				//curBuf.Scale (2);
+				//curBuf.NormalizeFluxTo(gamer.likelihood.Signal);
+				
+				AssembleImage();
+			}
+			
+		}		
 		
 		public void AssembleImage() {
 			if (buffer==null)
@@ -198,6 +212,7 @@ namespace LemonSpawn.Gamer {
 /*			if (stars!=null)
 				buffer.Add (stars);
 */				
+			
 			buffer.Assemble();			
 			material.mainTexture = buffer.image;
 			
@@ -323,6 +338,7 @@ namespace LemonSpawn.Gamer {
 					
 			if (done) {
 				AssembleImage();
+				Statistics();
 				if (currentTask!=null) {
 					currentTask.PostTask();
 					taskList.Remove(currentTask);
